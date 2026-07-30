@@ -687,7 +687,13 @@ function PFEXQuestHelper.AddMapNode(id, ispfDB)
     local quests = pfDB["quests"]["data"]
     meta["questid"] = id
     meta["quest"] = pfDB.quests.loc[id] and pfDB.quests.loc[id].T
-    meta["quest"] = meta["quest"] .. " (" .. id .. ")"
+    -- guard the concat: a quest without a loc entry has meta.quest == nil
+    if meta["quest"] then
+        meta["quest"] = meta["quest"] .. " (" .. id .. ")"
+    end
+    -- quest id absent from the current DB (e.g. a data pack was removed): bail
+    -- before indexing quests[id] throughout the rest of this function
+    if not quests[id] then return meta["quest"] end
     meta["qlvl"] = quests[id]["lvl"]
     meta["qmin"] = quests[id]["min"]
     if meta.quest then

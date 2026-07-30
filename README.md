@@ -2,6 +2,10 @@
 
 > ### About this fork
 >
+> **This fork is maintained for [OctoWoW](https://octowow.st)** — that is where the fixes below
+> were found and tested. They are not OctoWoW-specific and apply to any 1.12 client. Where the
+> documentation below refers to Turtle WoW, that is the original authors' text.
+>
 > All credit goes to **[Cliencer](https://github.com/Cliencer/pfExtend)** and **TinyStick**, who
 > wrote and maintain pfExtend, and to **[shagu](https://github.com/shagu/pfQuest)** for pfQuest
 > which it builds on. This fork only adds the five QuestHelper fixes below — everything else is

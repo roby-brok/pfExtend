@@ -1,5 +1,38 @@
 # pfExtend
 
+> ### About this fork
+>
+> All credit goes to **[Cliencer](https://github.com/Cliencer/pfExtend)** and **TinyStick**, who
+> wrote and maintain pfExtend, and to **[shagu](https://github.com/shagu/pfQuest)** for pfQuest
+> which it builds on. This fork only adds the five QuestHelper fixes below — everything else is
+> their work, unchanged. Please use
+> [the original repository](https://github.com/Cliencer/pfExtend) unless you specifically need
+> these.
+>
+> **`modules/QuestHelper/main.lua`**
+>
+> 1. **Failed profession requirements were reported as a class mismatch.** The skill check set
+>    `ret.WRONGCLASS` instead of `ret.WRONGSKILL`, so a quest you couldn't take because of a
+>    profession showed up as wrong-class. (`WRONG_SKILL` already exists in the priority table, so
+>    the flag was simply the wrong one.)
+> 2. **The object faction test was inverted.** It set `WRONGFACTION` when the quest object's
+>    faction *matched* yours. The unit branch a few lines above uses `not strfind(...)`, which
+>    confirms the intended sense.
+> 3. **Quest-chain priority bits contradicted their own comments.** `HAS_PRE` and `FINISHED` were
+>    `2` and `0` while documented as `00000001` and `00000010`; corrected to `1` and `2`.
+> 4. **`OnMapChange` ignored the loop variable.** Inside `for _, location in pairs(locations)` the
+>    guard tested `z2q[location]` but the body always read `z2q[PFEXQuestHelper.zone]`, so only the
+>    current zone's quests were ever collected.
+> 5. **Missing quest IDs caused a nil index.** `QuestFilter` now flags an unknown id and returns
+>    early instead of indexing `quests[id]`, which matters when a quest database pack is removed.
+>
+> **`modules/QuestHelper/browser.lua`**
+>
+> 6. Two nil guards on the same missing-id path in `AddMapNode` — the quest title concat, and
+>    `quests[id]` itself.
+>
+> Fork maintained by **Roby_Brok**.
+
 English | [简体中文](README-zhCN.md)
 
 pfExtend is an extension addon for [pfQuest](https://github.com/shagu/pfQuest), enhancing the gameplay experience by providing monster loot display and quest chain visualization functionalities. Compatible with **Turtle WoW** (1.12.0 client).

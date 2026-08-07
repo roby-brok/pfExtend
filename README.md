@@ -8,7 +8,7 @@
 >
 > All credit goes to **[Cliencer](https://github.com/Cliencer/pfExtend)** and **TinyStick**, who
 > wrote and maintain pfExtend, and to **[shagu](https://github.com/shagu/pfQuest)** for pfQuest
-> which it builds on. This fork only adds the five QuestHelper fixes below — everything else is
+> which it builds on. This fork only adds the six QuestHelper fixes below — everything else is
 > their work, unchanged. Please use
 > [the original repository](https://github.com/Cliencer/pfExtend) unless you specifically need
 > these.
@@ -34,6 +34,15 @@
 >
 > 6. Two nil guards on the same missing-id path in `AddMapNode` — the quest title concat, and
 >    `quests[id]` itself.
+> 7. **Quests with a turn-in NPC but no quest-giver crashed the browser.** The quest-ender block in
+>    `AddMapNode` reached into `quests[id]["start"]` without the guard its sibling quest-starter
+>    block already had, throwing `attempt to index field 'start' (a nil value)`. Around 40 quests
+>    in the Turtle database trip this — Baron Aquanis, Samophlange, Rizzle's Schematics and the
+>    WANTED series among them. Both the unit and the object branch are now guarded. Reported by
+>    **CakiL**.
+>
+> All of the above first shipped in **1.0.6**; see
+> [Releases](https://github.com/roby-brok/pfExtend/releases) for per-version notes.
 >
 > Fork maintained by **Roby_Brok**.
 

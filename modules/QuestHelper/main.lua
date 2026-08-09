@@ -570,9 +570,11 @@ PFEXQuestHelper.OnEvent = function(event, arg1, arg2, arg3, arg4, arg5, arg6, ar
     if (event == "PLAYER_ENTERING_WORLD") then
         PFEXQuestHelper.Reload()
         PFEXQuestHelper.GetPlayerData()
-        if not PfExtend_Database["QuestHelper"]["updated"] or PfExtend_Database["QuestHelper"]["version"] ~= PfExtend_Config_Template["About"].Version() then
+        -- .text, not the table -- see the same comparison in ShowLoots/main.lua.
+        local version = PfExtend_Config_Template["About"].Version().text
+        if not PfExtend_Database["QuestHelper"]["updated"] or PfExtend_Database["QuestHelper"]["version"] ~= version then
             PFEXQuestHelper.UpdateDatabase();
-            PfExtend_Database["QuestHelper"]["version"] = PfExtend_Config_Template["About"].Version()
+            PfExtend_Database["QuestHelper"]["version"] = version
         end
     elseif (event == "WORLD_MAP_UPDATE" and last_zone ~= zone) then
         last_zone = zone;

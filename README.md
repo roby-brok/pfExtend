@@ -44,6 +44,39 @@
 > All of the above first shipped in **1.0.6**; see
 > [Releases](https://github.com/roby-brok/pfExtend/releases) for per-version notes.
 >
+> **`modules/ShowLoots/` — 1.0.7**
+>
+> 8. **The three sort buttons emptied the window.** Clicking *Chance*, *ID* or *Quality* in the
+>    ShowLoots browser blanked every row. The list the window draws is rebuilt from the live
+>    mouseover: `UPDATE_MOUSEOVER_UNIT` clears `LootListShown` and only refills it when a unit is
+>    actually under the cursor. Moving the cursor off the mob is exactly what you do to reach the
+>    window, so the list was already empty by the time you clicked — and the sort handler refreshed
+>    by calling `Hide()` then `Show()`, which re-ran `OnShow` and re-read that empty list. All three
+>    buttons, every time.
+>
+>    The window now snapshots the list when it opens and sorts the snapshot, the mouseover handler
+>    leaves the list alone while the window is open, and sorting repopulates in place instead of
+>    cycling the frame. `ModifyTooltip()` returning nil is also guarded — it returns nil for a focus
+>    it declines to describe, which made the next `ipairs()` over the list an error.
+>
+>    Worth noting for other 1.12 addons: this got more reliable to hit on ClassicAPI, which fires
+>    `UPDATE_MOUSEOVER_UNIT` on *leaving* a unit. ClassicAPI ships its own
+>    `CAPI_MouseoverClearedCompat` shim for exactly this pattern; pfExtend's handler had no such
+>    guard.
+>
+> **`modules/About/config.lua`, both `main.lua` — 1.0.7**
+>
+> 9. **Both loot databases were rebuilt on every login.** The guard reads
+>    `PfExtend_Database[mod]["version"] ~= PfExtend_Config_Template["About"].Version()`, but
+>    `Version()` constructs a fresh `{text="..."}` table on each call, so the comparison was
+>    between two different tables and never equal. `UpdateDatabase()` therefore ran every time you
+>    logged in — for ShowLoots that is a walk over every item in the pfQuest database with refloot
+>    expansion, written straight back into SavedVariables. Both call sites now compare `.text`. The
+>    stored value corrects itself on the first login after updating.
+>
+>    The version itself now comes from `GetAddOnMetadata`, so it lives only in the `.toc` instead
+>    of being hardcoded in `About/config.lua` as well, where it had already drifted.
+>
 > Fork maintained by **Roby_Brok**.
 
 English | [简体中文](README-zhCN.md)

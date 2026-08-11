@@ -571,7 +571,10 @@ PFEXQuestHelper.OnEvent = function(event, arg1, arg2, arg3, arg4, arg5, arg6, ar
         PFEXQuestHelper.Reload()
         PFEXQuestHelper.GetPlayerData()
         -- .text, not the table -- see the same comparison in ShowLoots/main.lua.
+        -- Keyed to the database pack version too, same reason as there: this
+        -- cache is built from pack data and must rebuild when the pack does.
         local version = PfExtend_Config_Template["About"].Version().text
+        version = version .. "|" .. tostring(GetAddOnMetadata("pfQuest-octo", "Version") or "nopack")
         if not PfExtend_Database["QuestHelper"]["updated"] or PfExtend_Database["QuestHelper"]["version"] ~= version then
             PFEXQuestHelper.UpdateDatabase();
             PfExtend_Database["QuestHelper"]["version"] = version

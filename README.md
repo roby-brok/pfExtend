@@ -73,6 +73,11 @@
 >    logged in — for ShowLoots that is a walk over every item in the pfQuest database with refloot
 >    expansion, written straight back into SavedVariables. Both call sites now compare `.text`. The
 >    stored value corrects itself on the first login after updating.
+
+> 10. **A database-pack update now invalidates the cached databases.** Both caches are built
+>    from `pfQuest-octo`'s data but were keyed only to pfExtend's own version, so a corrected
+>    pack left every existing install serving the old data until pfExtend itself changed.
+>    The cache key now includes the pack's version.
 >
 >    The version itself now comes from `GetAddOnMetadata`, so it lives only in the `.toc` instead
 >    of being hardcoded in `About/config.lua` as well, where it had already drifted.

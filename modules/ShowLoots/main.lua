@@ -212,6 +212,11 @@ function PFEXShowLoots.OnEvent(event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
         -- with refloot expansion, written straight into SavedVariables -- ran on
         -- every single login instead of only when the version changed.
         local version = PfExtend_Config_Template["About"].Version().text
+        -- Key the cache to the database pack too: the loot DB is BUILT from
+        -- pack data, so a pack update must invalidate it. Before this, a data
+        -- correction in pfQuest-octo left every existing install showing the
+        -- old loot until pfExtend itself changed version.
+        version = version .. "|" .. tostring(GetAddOnMetadata("pfQuest-octo", "Version") or "nopack")
         if not PfExtend_Database["ShowLoots"]["updated"] or PfExtend_Database["ShowLoots"]["version"] ~= version then
             PFEXShowLoots.UpdateDatabase();
             PfExtend_Database["ShowLoots"]["version"] = version

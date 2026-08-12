@@ -229,9 +229,18 @@ function PFEXShowLoots.OnEvent(event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
         -- row vanished. Leave the list alone while the window is open.
         if PFEXShowLoots.isBrowse then return end
 
+        -- The loss-fire used to fall through to the rebuild below: it flagged
+        -- isShown false with an empty list while the old unit's tooltip was
+        -- still on screen fading out, so the ticker stamped "No loots" right
+        -- under the loot lines it had just written. Both stacks now fire this
+        -- event on losing the unit as well (ClassicAPI always did; SuperAPI
+        -- gained it recently). Nothing under the cursor, nothing to describe --
+        -- and keeping the last list is what the browser flow above wants.
+        if not UnitExists("mouseover") then return end
+
         PFEXShowLoots.LootListShown = {}
         isShown = false;
-        if (UnitExists("mouseover") and not UnitPlayerControlled("mouseover")) then
+        if (not UnitPlayerControlled("mouseover")) then
             -- ModifyTooltip returns nil for a focus it refuses to describe, and
             -- nil here makes the next ipairs() over the list an error.
             PFEXShowLoots.LootListShown = PFEXShowLoots.ModifyTooltip() or {};

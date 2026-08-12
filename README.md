@@ -64,6 +64,17 @@
 >    `CAPI_MouseoverClearedCompat` shim for exactly this pattern; pfExtend's handler had no such
 >    guard.
 >
+> **`modules/ShowLoots/main.lua` — 1.0.8**
+>
+> 10. **"No loots" stamped under the loot list when the cursor left the mob.** The same loss-fire
+>     as above reached the tooltip path: it cleared the list and flagged a redraw while the old
+>     unit's tooltip was still fading on screen, so the ticker appended *No loots* right under the
+>     loot lines it had just written. SuperAPI recently joined ClassicAPI in firing
+>     `UPDATE_MOUSEOVER_UNIT` on unit loss, which is why this started showing up on both stacks.
+>     The handler now returns before touching any state when nothing is under the cursor — which
+>     also keeps the last list alive for the browser, the same flow fix 8 wanted. Reported by
+>     **etherform**.
+>
 > **`modules/About/config.lua`, both `main.lua` — 1.0.7**
 >
 > 9. **Both loot databases were rebuilt on every login.** The guard reads

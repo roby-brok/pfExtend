@@ -191,10 +191,15 @@ A powerful quest chain visualization tool integrated into the World Map.
 
 ## Installation
 
-1. Download the latest release (`pfExtend_X.X.X.zip`)
-2. Extract to your WoW addons folder: `Interface\AddOns\`
-3. Ensure the folder is named `pfExtend` (not `pfExtend_X.X.X`)
-4. Restart the game or reload UI (`/reload`)
+1. **[Download the latest release](https://github.com/roby-brok/pfExtend/releases/latest)** and take
+   `pfExtend-X.X.X.zip` — *not* the *Source code (zip)* link
+2. Extract it into your WoW addons folder: `Interface\AddOns\`
+3. Restart the game or reload the UI (`/reload`)
+
+The release zip already contains a correctly named `pfExtend` folder, so there is nothing to
+rename. *Source code (zip)* is the one to avoid: it unpacks to `pfExtend-X.X.X`, and WoW skips a
+folder whose name does not match the `.toc` inside it — in silence, with no error and no entry in
+the addon list.
 
 ## Commands
 

@@ -99,10 +99,14 @@ pfExtend 是 [pfQuest](https://github.com/shagu/pfQuest)的扩展插件，提供
 
 ## 安装方法
 
-1. 下载最新版本 (`pfExtend_X.X.X.zip`)
+1. **[下载最新版本](https://github.com/roby-brok/pfExtend/releases/latest)**，请选择
+   `pfExtend-X.X.X.zip`，*不要*选择 *Source code (zip)*
 2. 解压到你的 WoW 插件文件夹：`Interface\AddOns\`
-3. 确保文件夹名为 `pfExtend`（不是 `pfExtend_X.X.X`）
-4. 重启游戏或重载界面 (`/reload`)
+3. 重启游戏或重载界面 (`/reload`)
+
+发布包内已经是命名正确的 `pfExtend` 文件夹，无需重命名。要避开的是 *Source code (zip)*：它解压后是
+`pfExtend-X.X.X`，而当文件夹名与其中的 `.toc` 不一致时，WoW 会直接跳过该插件——没有报错，插件列表里
+也不会出现。
 
 ## 命令
 
